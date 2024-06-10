@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "kulinary-react-native",
-    "slug": "kulinary-react-native",
+    "name": "Kulinary",
+    "slug": "kulinary",
+    "scheme": "kulinary",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +23,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
