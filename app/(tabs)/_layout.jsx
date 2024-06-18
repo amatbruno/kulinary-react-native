@@ -14,7 +14,7 @@ const TabIcon = ({ icon, color, name, focused }) => {
                 tintColor={color}
                 className='w-6 h-6'
             />
-            <Text className={`${focused ? 'font-msemi text-secondary_green' : 'font-mregular text-[#CDCDE0]'} text-xs`}>
+            <Text className={`${focused ? 'font-msemi text-secondary_green' : 'font-mregular text-[#CDCDE0]'} text-xs`} style={{ color: color }}>
                 {name}
             </Text>
         </View>
@@ -25,7 +25,7 @@ const TabsLayout = () => {
     return (
         <>
             <Tabs
-                screenOptions={{ 
+                screenOptions={{
                     tabBarShowLabel: false,
                     tabBarActiveTintColor: '#D6FC51',
                     tabBarInactiveTintColor: '#CDCDE0',
