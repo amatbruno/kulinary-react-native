@@ -11,7 +11,7 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
             <Text className="text-[20px] text-gray-200 font-msemi">{title}</Text>
 
             <View className="border-2 border-transparent transition-all w-full h-[65px] px-4 bg-[#181E2D] 
-            rounded-[10px] items-center focus:border-yellow-200 flex-row">
+            rounded-[10px] items-center focus:border-secondary_green flex-row">
                 <TextInput
                     className="flex-1 text-white font-mregular text-[20px] w-full"
                     value={value}
