@@ -25,7 +25,7 @@ const SignIn = () => {
         setIsSubmitting(true)
 
         try {
-            const result = await signIn(
+            await signIn(
                 form.email,
                 form.password);
 
