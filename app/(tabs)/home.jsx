@@ -51,7 +51,7 @@ const Home = () => {
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity className="mr-3 pb-5">
-                                    <Text className="text-white border-white border py-1.5 px-3.5 text-[20px] font-mmedium rounded-full">{item}</Text>
+                                    <Text className="text-gray-300 border-gray-300 border py-1.5 px-3.5 text-[20px] font-mmedium rounded-full">{item}</Text>
                                 </TouchableOpacity>
                             )} />
                         <Text className='text-[23px] font-msemi text-white mb-5'>Discover recipes</Text>
