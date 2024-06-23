@@ -8,11 +8,13 @@ import { images } from '../../constants/images';
 import { categories } from '../../data/categories';
 import { getAllRecipes } from '../../lib/appwrite';
 import useAppwrite from '../../lib/useAppwrite';
-
+import { router } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
     const { data: recipes, reFetch } = useAppwrite(getAllRecipes);
+    const navigation = useNavigation();
 
     const onRefresh = async () => { //Refreshing action for new recipes
         setRefreshing(true);
@@ -20,15 +22,15 @@ const Home = () => {
         setRefreshing(false);
     }
 
-    console.log(recipes)
-
     return (
         <SafeAreaView className='bg-background h-full'>
             <FlatList
                 data={recipes}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
-                    <RecipeCard recipeInfo={item} />
+                    <RecipeCard
+                        recipeInfo={item}
+                        onPress={() => navigation.navigate('RecipeDetail', { recipe: item })} />
                 )}
                 ListHeaderComponent={() => (
                     <View className='mt-12 px-6 space-y-3'>

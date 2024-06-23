@@ -1,14 +1,10 @@
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function RecipeCard({ recipeInfo: { title, thumbnail, description, calories, grams } }) {
-
-
-
+export default function RecipeCard({ recipeInfo: { title, thumbnail, description, calories, grams }, onPress }) {
     return (
-        <TouchableOpacity onPress={() => {
-            Alert.alert(title)
-        }}
+        <TouchableOpacity
+            onPress={onPress}
             className="flex-row mb-4 items-center justify-center 
             rounded-[20px] mx-6 bg-[#181E2D] h-[140px]">
             <Image

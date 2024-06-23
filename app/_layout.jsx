@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Slot, SplashScreen, Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
-import RecipeDetail from './RecipeDetail';
 
 import GlobalProvider from '../context/GlobalProvider';
 
@@ -32,6 +31,7 @@ const RootLayout = () => {
                 <Stack.Screen name='index' options={{ headerShown: false }} />
                 <Stack.Screen name='(auth)' options={{ headerShown: false }} />
                 <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                <Stack.Screen name='RecipeDetail' options={{ headerShown: false }} />
             </Stack>
         </GlobalProvider>
     )
