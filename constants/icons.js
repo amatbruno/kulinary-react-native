@@ -4,6 +4,7 @@ import saved from '../assets/icons/heart.png';
 import config from '../assets/icons/settings.png';
 import eye from '../assets/icons/eye.png';
 import eyeClosed from '../assets/icons/eye-closed.png';
+import arrowLeft from '../assets/icons/arrow-left.png';
 
 export const icons = {
     home,
@@ -11,5 +12,6 @@ export const icons = {
     saved,
     config,
     eye,
-    eyeClosed
+    eyeClosed,
+    arrowLeft
 };
