@@ -1,10 +1,10 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
 import React, { useRef, useMemo, useCallback } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 import { icons } from "../constants/icons";
 
@@ -12,8 +12,16 @@ export default function RecipeDetail() {
     const route = useRoute();
     const { recipe } = route.params;
 
+    const steps = [];
+    for (let i = 1; i <= 7; i++) {
+        const step = recipe[`step${i}`];
+        if (step) {
+            steps.push(step);
+        }
+    }
+
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ['20%', '19%', '94%'], []);
+    const snapPoints = useMemo(() => ['50%', '20%', '94%'], []);
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -55,8 +63,7 @@ export default function RecipeDetail() {
                     </View>
                 </View>
 
-                {/*COMPROBAR SI SE PUEDE HACER SCROLLABLE PARA MOSTRAR TODO EL CONTENIDO*/}
-                <View className="flex-1 p-24 mx-2">
+                <View className="flex-1 mx-2">
                     <BottomSheet
                         ref={bottomSheetRef}
                         index={1}
@@ -64,10 +71,26 @@ export default function RecipeDetail() {
                         backgroundStyle={styles.bottomSheetBackground}
                         handleIndicatorStyle={styles.handlerColor}
                     >
-                        <View className="flex-1 items-center bg-[#181E2D]">
-                            <Text className="text-center font-msemi text-[17px] text-white py-2">Steps & Ingredients</Text>
-                            <Text className="text-justify mx-5 font-mregular text-[14px] text-white py-2">{recipe.steps}</Text>
-                        </View>
+                        <Text className="text-center font-msemi text-[24px] text-white py-2">Steps & Ingredients</Text>
+                        <BottomSheetScrollView>
+                            {steps.length > 0 ? (
+                                steps.map((step, index) => (
+                                    <View key={index} className="flex-row items-start justify-start mt-4 ml-7 mr-14">
+                                        <Image
+                                            source={icons.state}
+                                            className="w-[25px] h-[25px]"
+                                            resizeMode='contain'
+                                        />
+                                        <View className="flex-col pl-3">
+                                            <Text className="text-justify font-mbold text-[20px] text-white">Step {index + 1}</Text>
+                                            <Text className="text-justify font-mregular text-[15px] text-gray-300 py-2">{step}</Text>
+                                        </View>
+                                    </View>
+                                ))
+                            ) : (
+                                <Text className="text-center">No steps available for this recipe.</Text>
+                            )}
+                        </BottomSheetScrollView>
                     </BottomSheet>
                 </View>
             </SafeAreaView>
@@ -77,13 +100,9 @@ export default function RecipeDetail() {
 
 const styles = StyleSheet.create({
     bottomSheetBackground: {
-        backgroundColor: '#181E2D',
+        backgroundColor: '#181E2D'
     },
     handlerColor: {
         backgroundColor: 'gray',
-    },
-    contentContainer: {
-        flex: 1,
-        alignItems: 'center',
     }
 });

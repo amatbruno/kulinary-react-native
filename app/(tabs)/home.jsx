@@ -8,7 +8,6 @@ import { images } from '../../constants/images';
 import { categories } from '../../data/categories';
 import { getAllRecipes } from '../../lib/appwrite';
 import useAppwrite from '../../lib/useAppwrite';
-import { router } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
