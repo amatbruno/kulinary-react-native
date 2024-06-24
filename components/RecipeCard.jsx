@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function RecipeCard({ recipeInfo: { title, thumbnail, description, calories, grams }, onPress }) {
+export default function RecipeCard({ recipeInfo: { title, thumbnail, description, calories, grams, steps }, onPress }) {
     return (
         <TouchableOpacity
             onPress={onPress}

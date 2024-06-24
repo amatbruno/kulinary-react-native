@@ -1,5 +1,5 @@
-import { View, Text, Image } from 'react-native'
-import React, { useRef, useMemo } from 'react'
+import { View, Text, Image, StyleSheet } from 'react-native'
+import React, { useRef, useMemo, useCallback } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -13,7 +13,7 @@ export default function RecipeDetail() {
     const { recipe } = route.params;
 
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ['25%', '50%'], []);
+    const snapPoints = useMemo(() => ['20%', '19%', '94%'], []);
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -33,10 +33,10 @@ export default function RecipeDetail() {
                     <Text className="text-white text-center text-[23px] w-[200px] font-mbold mb-7">{recipe.title}</Text>
                     <Image
                         source={{ uri: recipe.thumbnail }}
-                        className="w-[225px] h-[225px] rounded-full"
+                        className="w-[190px] h-[190px] rounded-full"
                         resizeMode="contain" />
                 </View>
-                <View className="flex-row justify-center mt-10 border-2 border-gray-400 mx-8 rounded-xl py-5">
+                <View className="flex-row justify-center mt-7 border-2 border-gray-400 mx-8 rounded-xl py-4">
                     <View className="flex-col items-center gap-2.5 mr-9">
                         <Text className="text-[18px] font-mmedium text-secondary_beix">{recipe.calories}</Text>
                         <Text className="text-[13px] text-gray-200 font-mregular">calories</Text>
@@ -55,7 +55,35 @@ export default function RecipeDetail() {
                     </View>
                 </View>
 
+                {/*COMPROBAR SI SE PUEDE HACER SCROLLABLE PARA MOSTRAR TODO EL CONTENIDO*/}
+                <View className="flex-1 p-24 mx-2">
+                    <BottomSheet
+                        ref={bottomSheetRef}
+                        index={1}
+                        snapPoints={snapPoints}
+                        backgroundStyle={styles.bottomSheetBackground}
+                        handleIndicatorStyle={styles.handlerColor}
+                    >
+                        <View className="flex-1 items-center bg-[#181E2D]">
+                            <Text className="text-center font-msemi text-[17px] text-white py-2">Steps & Ingredients</Text>
+                            <Text className="text-justify mx-5 font-mregular text-[14px] text-white py-2">{recipe.steps}</Text>
+                        </View>
+                    </BottomSheet>
+                </View>
             </SafeAreaView>
         </GestureHandlerRootView>
     )
 }
+
+const styles = StyleSheet.create({
+    bottomSheetBackground: {
+        backgroundColor: '#181E2D',
+    },
+    handlerColor: {
+        backgroundColor: 'gray',
+    },
+    contentContainer: {
+        flex: 1,
+        alignItems: 'center',
+    }
+});
