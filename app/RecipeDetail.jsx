@@ -11,7 +11,7 @@ import { icons } from "../constants/icons";
 import InfoTarget from '../components/InfoTarget';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-import { saveRecipe } from '../lib/appwrite';
+import { likeRecipe, saveRecipe } from '../lib/appwrite';
 import { useGlobalContext } from '../context/GlobalProvider';
 
 export default function RecipeDetail() {
@@ -33,9 +33,14 @@ export default function RecipeDetail() {
     const [liked, setLiked] = useState(false);
     const { user, setUser } = useGlobalContext();
 
-    const handleLike = () => {
-        saveRecipe(user.$id, recipe.$id);
-    }
+    const handleLike = async () => {
+        try {
+            await likeRecipe(user.$id, recipe.$id);
+            setLiked((prevLiked) => !prevLiked);
+        } catch (error) {
+            console.error('Error liking recipe:', error.message);
+        }
+    };
 
     const bottomSheetRef = useRef(null);
     const snapPoints = useMemo(() => ['50%', '23%', '94%'], []);
