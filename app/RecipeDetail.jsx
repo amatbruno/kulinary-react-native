@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, Pressable, TouchableOpacity } from 'react-native'
-import React, { useRef, useMemo, useState } from 'react'
+import React, { useRef, useMemo, useState, useEffect } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,14 +11,16 @@ import { icons } from "../constants/icons";
 import InfoTarget from '../components/InfoTarget';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-import { likeRecipe, saveRecipe } from '../lib/appwrite';
+import { getLikedRecipes, userLikedRecipes } from '../lib/appwrite';
 import { useGlobalContext } from '../context/GlobalProvider';
 
 export default function RecipeDetail() {
     const route = useRoute();
     const { recipe } = route.params;
-
     const navigation = useNavigation();
+    const [liked, setLiked] = useState(false);
+    const { user, setUser } = useGlobalContext();
+    const [loading, setLoading] = useState(true);
 
     //Steps arr slicing
     const steps = [];
@@ -29,18 +31,41 @@ export default function RecipeDetail() {
         }
     }
 
-    //Like button style & animation
-    const [liked, setLiked] = useState(false);
-    const { user, setUser } = useGlobalContext();
+    useEffect(() => {
+        // Check if the recipe is already liked by the user
+        const fetchLikedStatus = async () => {
+            try {
+                if (user && recipe) {
+                    const likedRecipes = await getLikedRecipes(user.$id);
+                    const isLiked = likedRecipes.some(likedRecipe => likedRecipe.$id === recipe.$id);
+                    setLiked(isLiked);
+                }
+            } catch (error) {
+                console.error('Error fetching liked status:', error.message);
+            } finally {
+                setLoading(false); // Set loading to false after fetching
+            }
+        };
 
-    const handleLike = async () => {
+        fetchLikedStatus();
+    }, [user, recipe]);
+
+    const handleLikeToggle = async () => {
         try {
-            await likeRecipe(user.$id, recipe.$id);
-            setLiked((prevLiked) => !prevLiked);
+            if (user && recipe) {
+                setLiked((isLiked) => !isLiked);
+                await userLikedRecipes({ recipeId: recipe.$id, userId: user.$id });
+            }
         } catch (error) {
-            console.error('Error liking recipe:', error.message);
+            console.error('Error toggling like:', error.message);
+            // Revert the UI update in case of error
+            setLiked((isLiked) => !isLiked);
         }
     };
+
+    if (!user || !recipe) {
+        return null;
+    }
 
     const bottomSheetRef = useRef(null);
     const snapPoints = useMemo(() => ['50%', '23%', '94%'], []);
@@ -59,10 +84,7 @@ export default function RecipeDetail() {
                             resizeMode="cover"
                         />
                     </TouchableOpacity>
-                    <Pressable onPress={() => {
-                        handleLike()
-                        setLiked((isLiked) => !isLiked)
-                    }}>
+                    <Pressable onPress={handleLikeToggle}>
                         <MaterialCommunityIcons
                             name={liked ? "heart" : "heart-outline"}
                             size={25}
