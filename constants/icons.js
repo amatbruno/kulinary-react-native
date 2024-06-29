@@ -7,6 +7,7 @@ import eyeClosed from '../assets/icons/eye-closed.png';
 import arrowLeft from '../assets/icons/arrow-left.png';
 import state from '../assets/icons/icons-state.png';
 import heartFilled from '../assets/icons/heart-filled.png';
+import camera from '../assets/icons/camera.png';
 
 export const icons = {
     home,
@@ -17,5 +18,6 @@ export const icons = {
     eyeClosed,
     arrowLeft,
     state,
-    heartFilled
+    heartFilled,
+    camera
 };
