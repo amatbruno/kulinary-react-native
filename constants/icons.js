@@ -8,6 +8,10 @@ import arrowLeft from '../assets/icons/arrow-left.png';
 import state from '../assets/icons/icons-state.png';
 import heartFilled from '../assets/icons/heart-filled.png';
 import camera from '../assets/icons/camera.png';
+import filledUser from '../assets/icons/user-filled.png';
+import email from '../assets/icons/mail.png';
+import info from '../assets/icons/info-circle.png';
+import pencil from '../assets/icons/pencil.png';
 
 export const icons = {
     home,
@@ -19,5 +23,9 @@ export const icons = {
     arrowLeft,
     state,
     heartFilled,
-    camera
+    camera,
+    filledUser,
+    email,
+    info,
+    pencil
 };
