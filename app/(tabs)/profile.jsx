@@ -11,7 +11,6 @@ import ProfileElement from '../../components/ProfileElement';
 import CustomButton from '../../components/CustomButton';
 import EditModal from '../../components/EditModal';
 
-
 const Profile = () => {
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
@@ -52,7 +51,7 @@ const Profile = () => {
 
     return (
         <SafeAreaView className="bg-background h-full">
-            <View className="items-end mt-20 mb-5 mx-auto">
+            <View className="items-end mt-20 mb-7 mx-auto">
                 <Image
                     className="w-40 h-40 rounded-full"
                     source={{ uri: user?.avatar }} />
@@ -82,8 +81,8 @@ const Profile = () => {
                 icon={icons.info}
                 editIcon={icons.pencil}
                 onEdit={() => handleEdit('biography', newBiography)}
+                
             />
-
             <EditModal
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
