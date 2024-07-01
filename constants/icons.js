@@ -12,6 +12,7 @@ import filledUser from '../assets/icons/user-filled.png';
 import email from '../assets/icons/mail.png';
 import info from '../assets/icons/info-circle.png';
 import pencil from '../assets/icons/pencil.png';
+import logout from '../assets/icons/logout.png';
 
 export const icons = {
     home,
@@ -27,5 +28,6 @@ export const icons = {
     filledUser,
     email,
     info,
-    pencil
+    pencil,
+    logout
 };

@@ -1,38 +1,43 @@
-import { Image, SafeAreaView, Alert, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import { Image, SafeAreaView, Alert, TouchableOpacity, View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { route, router } from 'expo-router';
 
 import { useGlobalContext } from '../../context/GlobalProvider';
-import { updateUserEmail } from '../../lib/appwrite';
+import { userLogout } from '../../lib/appwrite';
 import { updateUserBio } from '../../lib/appwrite';
 
 import { icons } from '../../constants/icons';
 
 import ProfileElement from '../../components/ProfileElement';
-import CustomButton from '../../components/CustomButton';
 import EditModal from '../../components/EditModal';
 
 const Profile = () => {
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
-    const [newBiography, setNewBiography] = useState(user.biography);
-    const [newEmail, setNewEmail] = useState(user.email);
+    const [newBiography, setNewBiography] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+    const [newUsername, setNewUsername] = useState('');
 
     const [modalVisible, setModalVisible] = useState(false);
     const [currentField, setCurrentField] = useState('');
     const [currentValue, setCurrentValue] = useState('');
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if (user) {
+            setNewUsername(user.username || '');
+            setNewEmail(user.email || '');
+            setNewBiography(user.biography || '');
+        }
+    }, [user]);
+
     const handleUpdateField = async (field, value) => {
         setLoading(true);
         try {
             if (field === 'biography') {
-                await updateUserBio(user.$id, value)
+                await updateUserBio(user.$id, value);
                 setNewBiography(value);
                 setUser(prevUser => ({ ...prevUser, biography: value }));
-            } else if (field === 'email') {
-                await updateUserEmail(user.$id, value);
-                setNewEmail(value);
-                setUser(prevUser => ({ ...prevUser, email: value }));
             }
             Alert.alert('Success', `${field.charAt(0).toUpperCase() + field.slice(1)} updated successfully`);
         } catch (error) {
@@ -49,31 +54,55 @@ const Profile = () => {
         setModalVisible(true);
     };
 
+    const logOut = async () => {
+        await userLogout();
+        setUser(null);
+        setIsLoggedIn(false);
+
+        router.replace('/sign-in');
+    };
+
+    if (!user) {
+        return (
+            <SafeAreaView className="bg-background h-full">
+                <Text className="text-white">User not logged in</Text>
+            </SafeAreaView>
+        );
+    }
+
     return (
         <SafeAreaView className="bg-background h-full">
-            <View className="items-end mt-20 mb-7 mx-auto">
+            <View className="mt-16 items-end mx-7">
+                <TouchableOpacity onPress={logOut}>
+                    <Image
+                        source={icons.logout}
+                        className="w-8 h-8"
+                        tintColor="#BF0000"
+                    />
+                </TouchableOpacity>
+            </View>
+            <View className="items-end mt-5 mb-7 mx-auto">
                 <Image
                     className="w-40 h-40 rounded-full"
-                    source={{ uri: user?.avatar }} />
-                <TouchableOpacity
-                    className="bg-secondary_green rounded-full p-2 mt-[-45px]">
+                    source={{ uri: user?.avatar }}
+                />
+                <TouchableOpacity className="bg-secondary_green rounded-full p-2 mt-[-45px]">
                     <Image
                         className="w-8 h-8"
                         source={icons.camera}
-                        resizeMode='cover' />
+                        resizeMode="cover"
+                    />
                 </TouchableOpacity>
             </View>
             <ProfileElement
                 title="Username"
-                data={user.username}
+                data={newUsername}
                 icon={icons.filledUser}
             />
             <ProfileElement
                 title="Email address"
                 data={newEmail}
                 icon={icons.email}
-                editIcon={icons.pencil}
-                onEdit={() => handleEdit('email', newEmail)}
             />
             <ProfileElement
                 title="Biography"
@@ -81,7 +110,6 @@ const Profile = () => {
                 icon={icons.info}
                 editIcon={icons.pencil}
                 onEdit={() => handleEdit('biography', newBiography)}
-                
             />
             <EditModal
                 visible={modalVisible}
