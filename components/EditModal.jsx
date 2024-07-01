@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 const EditModal = ({ visible, onClose, onSave, field, value }) => {
     const [inputValue, setInputValue] = useState(value);
+
+    // Actualizar el estado del input cuando el valor inicial cambie
+    useEffect(() => {
+        setInputValue(value);
+    }, [value]);
 
     return (
         <Modal
