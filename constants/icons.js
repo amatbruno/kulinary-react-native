@@ -17,6 +17,8 @@ import bell from '../assets/icons/bell-ringing.png';
 import moon from '../assets/icons/moon.png';
 import language from '../assets/icons/language.png';
 import terms from '../assets/icons/receipt.png';
+import key from '../assets/icons/key.png';
+import userDelete from '../assets/icons/user-off.png';
 
 export const icons = {
     home,
@@ -37,5 +39,7 @@ export const icons = {
     bell,
     moon,
     language,
-    terms
+    terms,
+    key,
+    userDelete
 };
