@@ -13,6 +13,10 @@ import email from '../assets/icons/mail.png';
 import info from '../assets/icons/info-circle.png';
 import pencil from '../assets/icons/pencil.png';
 import logout from '../assets/icons/logout.png';
+import bell from '../assets/icons/bell-ringing.png';
+import moon from '../assets/icons/moon.png';
+import language from '../assets/icons/language.png';
+import terms from '../assets/icons/receipt.png';
 
 export const icons = {
     home,
@@ -29,5 +33,9 @@ export const icons = {
     email,
     info,
     pencil,
-    logout
+    logout,
+    bell,
+    moon,
+    language,
+    terms
 };

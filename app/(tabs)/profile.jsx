@@ -69,14 +69,14 @@ const Profile = () => {
             </SafeAreaView>
         );
     }
-
+ 
     return (
         <SafeAreaView className="bg-background h-full">
             <View className="mt-16 items-end mx-7">
                 <TouchableOpacity onPress={logOut}>
                     <Image
                         source={icons.logout}
-                        className="w-8 h-8"
+                        className="w-7 h-7"
                         tintColor="#BF0000"
                     />
                 </TouchableOpacity>
