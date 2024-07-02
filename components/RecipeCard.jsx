@@ -1,12 +1,17 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react';
 
-export default function RecipeCard({ recipeInfo: { title, thumbnail, description, calories, grams, steps }, onPress }) {
+import ThemeContext from '../context/ThemeContext';
+
+export default function RecipeCard({ recipeInfo: { title, thumbnail, description, calories, grams }, onPress }) {
+    const { theme } = useContext(ThemeContext);
+
     return (
         <TouchableOpacity
             onPress={onPress}
+            style={{ backgroundColor: theme.recipeCard, flex: 1 }}
             className="flex-row mb-4 items-center justify-center 
-            rounded-[20px] mx-6 bg-[#181E2D] h-[140px]">
+            rounded-[20px] mx-6 h-[140px]">
             <Image
                 source={{ uri: thumbnail }}
                 className="w-[100px] h-[100px] rounded-full"

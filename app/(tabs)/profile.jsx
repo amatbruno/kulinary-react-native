@@ -1,8 +1,10 @@
 import { Image, SafeAreaView, Alert, TouchableOpacity, View, Text } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { route, router } from 'expo-router';
 
 import { useGlobalContext } from '../../context/GlobalProvider';
+import ThemeContext from '../../context/ThemeContext';
+
 import { userLogout } from '../../lib/appwrite';
 import { updateUserBio } from '../../lib/appwrite';
 
@@ -22,6 +24,8 @@ const Profile = () => {
     const [currentField, setCurrentField] = useState('');
     const [currentValue, setCurrentValue] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
         if (user) {
@@ -64,14 +68,14 @@ const Profile = () => {
 
     if (!user) {
         return (
-            <SafeAreaView className="bg-background h-full">
-                <Text className="text-white">User not logged in</Text>
+            <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }} className="h-full">
+                <Text style={{ color: theme.text }}>User not logged in</Text>
             </SafeAreaView>
         );
     }
- 
+
     return (
-        <SafeAreaView className="bg-background h-full">
+        <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }} className="h-full">
             <View className="mt-16 items-end mx-7">
                 <TouchableOpacity onPress={logOut}>
                     <Image

@@ -1,17 +1,23 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
+
+import ThemeContext from '../context/ThemeContext';
 
 const ProfileElement = ({ title, data, icon, editIcon, onEdit }) => {
+    const { theme } = useContext(ThemeContext);
+
     return (
-        <View className="mx-7 mt-7 flex-row items-center pb-4 mb-1 border-b border-gray-700">
+        <View
+            style={{ borderBottomColor: theme.borderColor }}
+            className="mx-7 mt-7 flex-row items-center pb-4 mb-1 border-b border-gray-700">
             <Image
                 className="w-7 h-7 mr-7"
                 resizeMode='cover'
                 tintColor="#9ca3af"
                 source={icon} />
             <View>
-                <Text className="font-msemi text-[13px] text-gray-400">{title}</Text>
-                <Text className="font-msemi text-[18px] text-gray-200 w-[230px] pt-1">{data}</Text>
+                <Text style={{ color: theme.placeholder }} className="font-msemi text-[13px] text-gray-400">{title}</Text>
+                <Text style={{ color: theme.text }} className="font-msemi text-[18px] text-gray-200 w-[230px] pt-1">{data}</Text>
             </View>
             {editIcon && (
                 <TouchableOpacity

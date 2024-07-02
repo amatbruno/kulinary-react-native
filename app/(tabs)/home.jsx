@@ -1,8 +1,10 @@
 import { View, Text, FlatList, Image, TouchableOpacity, RefreshControl } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import RecipeCard from '../../components/RecipeCard';
+
+import ThemeContext from '../../context/ThemeContext';
 
 import { images } from '../../constants/images';
 import { categories } from '../../data/categories';
@@ -15,6 +17,8 @@ const Home = () => {
     const { data: recipes, reFetch } = useAppwrite(getAllRecipes);
     const navigation = useNavigation();
 
+    const { theme } = useContext(ThemeContext);
+
     const onRefresh = async () => { //Refreshing action for new recipes
         setRefreshing(true);
         await reFetch();
@@ -22,7 +26,9 @@ const Home = () => {
     }
 
     return (
-        <SafeAreaView className='bg-background h-full'>
+        <SafeAreaView
+            style={{ backgroundColor: theme.background, flex: 1 }}
+            className='h-full'>
             <FlatList
                 data={recipes}
                 keyExtractor={(item) => item.$id}
@@ -35,8 +41,8 @@ const Home = () => {
                     <View className='mt-12 px-6 space-y-3'>
                         <View className='justify-between items-center flex-row mb-6'>
                             <View>
-                                <Text className='text-[15px] font-msemi text-gray-200'>Welcome back,</Text>
-                                <Text className='text-[26px] font-mbold text-white'>Bruno! 👋</Text>
+                                <Text style={{ color: theme.text }} className='text-[15px] font-msemi'>Welcome back,</Text>
+                                <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>Bruno! 👋</Text>
                             </View>
                             <View>
                                 <Image
@@ -52,10 +58,12 @@ const Home = () => {
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity className="mr-3 pb-5">
-                                    <Text className="text-gray-300 border-gray-300 border py-1.5 px-3.5 text-[20px] font-mmedium rounded-full">{item}</Text>
+                                    <Text
+                                        style={{ color: theme.text, borderColor: theme.borderCategories }}
+                                        className="border-gray-300 border-2 py-1.5 px-3.5 text-[20px] font-mmedium rounded-full">{item}</Text>
                                 </TouchableOpacity>
                             )} />
-                        <Text className='text-[23px] font-msemi text-white mb-5'>Discover recipes</Text>
+                        <Text style={{ color: theme.text}} className='text-[23px] font-msemi mb-5'>Discover recipes</Text>
                     </View>
                 )}
                 refreshControl={<RefreshControl

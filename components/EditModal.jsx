@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity } from 'react-native';
+
+import ThemeContext from '../context/ThemeContext';
 
 const EditModal = ({ visible, onClose, onSave, field, value, lines }) => {
     const [inputValue, setInputValue] = useState(value);
+
+    const { theme } = useContext(ThemeContext);
 
     // Actualizar el estado del input cuando el valor inicial cambie
     useEffect(() => {
@@ -21,7 +25,8 @@ const EditModal = ({ visible, onClose, onSave, field, value, lines }) => {
                     <Text className="text-xl font-mbold mb-3">Change {field}</Text>
                     <View className="border-2 rounded-lg border-secondary_green mb-4">
                         <TextInput
-                            className="px-1 text-[16px] font-semibold text-gray-300"
+                            style={{ color: theme.placeholder }}
+                            className="px-1 text-[16px] font-semibold"
                             value={inputValue}
                             onChangeText={setInputValue}
                             cursorColor="#D6FC51"
@@ -44,7 +49,7 @@ const EditModal = ({ visible, onClose, onSave, field, value, lines }) => {
                                 onClose();
                             }}
                         >
-                            <Text className="text-white text-[16px] font-msemi">Save</Text>
+                            <Text className="text-[16px] font-msemi">Save</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

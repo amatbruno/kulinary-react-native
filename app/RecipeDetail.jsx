@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, Pressable, TouchableOpacity } from 'react-native'
-import React, { useRef, useMemo, useState, useEffect } from 'react'
+import React, { useRef, useMemo, useState, useEffect, useContext } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,6 +13,7 @@ import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 import { getLikedRecipes, userLikedRecipes } from '../lib/appwrite';
 import { useGlobalContext } from '../context/GlobalProvider';
+import ThemeContext from '../context/ThemeContext';
 
 export default function RecipeDetail() {
     const route = useRoute();
@@ -21,6 +22,8 @@ export default function RecipeDetail() {
     const [liked, setLiked] = useState(false);
     const { user, setUser } = useGlobalContext();
     const [loading, setLoading] = useState(true);
+
+    const { theme } = useContext(ThemeContext);
 
     //Steps arr slicing
     const steps = [];
@@ -71,8 +74,8 @@ export default function RecipeDetail() {
     const snapPoints = useMemo(() => ['50%', '23%', '94%'], []);
 
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView className='bg-background h-full w-full'>
+        <GestureHandlerRootView style={{ backgroundColor: theme.background, flex: 1 }}>
+            <SafeAreaView className='h-full w-full'>
                 <View className="mt-8 flex-row justify-between mx-8">
                     <TouchableOpacity
                         onPress={() => navigation.navigate('home')}
@@ -80,7 +83,7 @@ export default function RecipeDetail() {
                         <Image
                             source={icons.arrowLeft}
                             className="w-[25px] h-[25px]"
-                            tintColor="white"
+                            tintColor={theme.tintColor}
                             resizeMode="cover"
                         />
                     </TouchableOpacity>
@@ -93,7 +96,7 @@ export default function RecipeDetail() {
                     </Pressable>
                 </View>
                 <View className="items-center">
-                    <Text className="text-white text-center text-[23px] w-[200px] font-mbold mb-7">{recipe.title}</Text>
+                    <Text style={{ color: theme.text }} className="text-center text-[23px] w-[200px] font-mbold mb-7">{recipe.title}</Text>
                     <Image
                         source={{ uri: recipe.thumbnail }}
                         className="w-[190px] h-[190px] rounded-full"
@@ -110,10 +113,12 @@ export default function RecipeDetail() {
                         ref={bottomSheetRef}
                         index={1}
                         snapPoints={snapPoints}
-                        backgroundStyle={styles.bottomSheetBackground}
-                        handleIndicatorStyle={styles.handlerColor}
+                        backgroundStyle={{backgroundColor: theme.bottomSheet}}
+                        handleIndicatorStyle={{backgroundColor: theme.handler}}
                     >
-                        <Text className="text-center font-msemi text-[24px] text-white pt-2 pb-5">Steps & Ingredients</Text>
+                        <Text
+                            style={{ color: theme.text }}
+                            className="text-center font-msemi text-[24px] pt-2 pb-5">Steps & Ingredients</Text>
                         <BottomSheetScrollView>
                             {steps.length > 0 ? (
                                 steps.map((step, index) => (
@@ -124,8 +129,8 @@ export default function RecipeDetail() {
                                             resizeMode='contain'
                                         />
                                         <View className="flex-col pl-3">
-                                            <Text className="text-justify font-mbold text-[20px] text-white">Step {index + 1}</Text>
-                                            <Text className="text-justify font-mregular text-[15px] text-gray-300 py-2">{step}</Text>
+                                            <Text style={{ color: theme.text }} className="text-justify font-mbold text-[20px]">Step {index + 1}</Text>
+                                            <Text style={{ color: theme.steps }} className="text-justify font-mregular text-[15px] py-2">{step}</Text>
                                         </View>
                                     </View>
                                 ))
@@ -140,11 +145,11 @@ export default function RecipeDetail() {
     )
 }
 
-const styles = StyleSheet.create({
-    bottomSheetBackground: {
-        backgroundColor: '#181E2D'
-    },
-    handlerColor: {
-        backgroundColor: 'gray',
-    }
-});
+// const styles = StyleSheet.create({
+//     bottomSheetBackground: {
+//         backgroundColor: theme.bottomSheet
+//     },
+//     handlerColor: {
+//         backgroundColor: 'gray',
+//     }
+// });
