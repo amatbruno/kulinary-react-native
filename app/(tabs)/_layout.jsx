@@ -1,11 +1,14 @@
 import { View, Text, Image } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Tabs, Redirect } from 'expo-router';
 
 import { icons } from '../../constants/icons';
 
+import ThemeContext from '../../context/ThemeContext';
 
 const TabIcon = ({ icon, color, name, focused }) => {
+    const { theme } = useContext(ThemeContext);
+
     return (
         <View className='items-center justify-center gap-1'>
             <Image
@@ -22,15 +25,17 @@ const TabIcon = ({ icon, color, name, focused }) => {
 }
 
 const TabsLayout = () => {
+    const { theme } = useContext(ThemeContext);
+
     return (
         <>
             <Tabs
                 screenOptions={{
                     tabBarShowLabel: false,
-                    tabBarActiveTintColor: '#D6FC51',
-                    tabBarInactiveTintColor: '#CDCDE0',
+                    tabBarActiveTintColor: theme.activeColor,
+                    tabBarInactiveTintColor: theme.inactiveColor,
                     tabBarStyle: {
-                        backgroundColor: '#11151E',
+                        backgroundColor: theme.background,
                         borderTopWidth: 2,
                         borderTopColor: '#171b26',
                         height: 66

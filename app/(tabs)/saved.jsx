@@ -1,7 +1,8 @@
 import { View, Text, SafeAreaView, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { getLikedRecipes } from '../../lib/appwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
+import ThemeContext from '../../context/ThemeContext';
 import useAppwrite from '../../lib/useAppwrite';
 import RecipeLiked from '../../components/RecipeLiked';
 
@@ -22,8 +23,10 @@ const Saved = () => {
 
     const navigation = useNavigation();
 
+    const { theme } = useContext(ThemeContext);
+
     return (
-        <SafeAreaView className="bg-background h-full">
+        <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }} className="h-full">
             <FlatList
                 data={recipes}
                 keyExtractor={item => `${item.$id}`}
@@ -37,17 +40,17 @@ const Saved = () => {
                                 <Image
                                     source={icons.arrowLeft}
                                     className="w-[25px] h-[25px]"
-                                    tintColor="white"
+                                    tintColor={theme.tintColor}
                                     resizeMode="cover"
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text className="text-2xl font-mbold text-center text-white mt-2 mb-2">My saved recipes</Text>
+                        <Text style={{ color: theme.text }} className="text-2xl font-mbold text-center mt-2 mb-2">My saved recipes</Text>
                     </>
                 )}
                 numColumns={2}
                 ListEmptyComponent={() => (
-                    <Text className="text-white">Actually you don't have saved recipes</Text>
+                    <Text style={{ color: theme.text }}>Actually you don't have saved recipes</Text>
                 )}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />

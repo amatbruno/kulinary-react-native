@@ -1,87 +1,53 @@
-import { View, Text, SafeAreaView, Switch, useColorScheme } from 'react-native'
-import React, { useState } from 'react';
+import { View, Text, SafeAreaView, Switch } from 'react-native'
+import React, { useContext } from 'react';
 import ConfigElement from '../../components/ConfigElement';
 
-import SwitchToggle from 'react-native-switch-toggle';
-
 import { icons } from '../../constants/icons';
+import ThemeContext from '../../context/ThemeContext';
+
+import { darkTheme } from '../../themes/themes';
 
 const Config = () => {
-    // const [notification, setNotification] = useState(true);
-    // const toggleNotification = () => setNotification(previousState => !previousState);
-    const [darkTheme, setDarkTheme] = useState(true);
-    const { colorScheme, toggleColorScheme } = useColorScheme();
-    const toggleTheme = () => setDarkTheme(previousState => !previousState);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
-        <SafeAreaView className="h-full bg-background dark:bg-neutral-50">
-            <Text className="mt-24 text-white font-mbold text-2xl text-center mb-6">Configuration</Text>
+        <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }} className="h-full px-5">
+            <Text style={{ color: theme.text }} className="mt-24 text-white font-mbold text-2xl text-center mb-6">Configuration</Text>
 
-            {/* <View className="mx-5 mb-9">
-                <Text className="text-white font-mbold text-xl">Notifications</Text>
+            <View className="mb-9">
+                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Notifications</Text>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.bell} title="Enable notifications" color="#D9D9D9" textColor="white" />
-                    <SwitchToggle
-                        switchOn={notification}
-                        onPress={toggleNotification}
-                        circleColorOff="#11151E"
-                        circleColorOn="#11151E"
-                        backgroundColorOn="#D6FC51"
-                        backgroundColorOff="#767577"
-                        containerStyle={{
-                            width: 45,
-                            height: 20,
-                            borderRadius: 25,
-                            padding: 5,
-                        }}
-                        circleStyle={{
-                            width: 15,
-                            height: 15,
-                            borderRadius: 15,
-                        }}
-                    />
+                    <ConfigElement textColor={theme.text} icon={icons.bell} title="Enable notifications" color="#D9D9D9" />
+                    <Switch />
                 </View>
-            </View> */}
+            </View>
 
-            <View className="mx-5 mb-9">
-                <Text className="text-white font-mbold text-xl">Theme</Text>
+            <View className="mb-9">
+                <Text style={{ color: theme.text }} className="font-mbold text-xl">Theme</Text>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.moon} title="Dark mode" color="#D9D9D9" textColor="white" />
-                    <SwitchToggle
-                        value={colorScheme == 'dark'}
-                        switchOn={darkTheme}
-                        onPress={toggleTheme}
-                        circleColorOff="#11151E"
-                        circleColorOn="#11151E"
-                        backgroundColorOn="#D6FC51"
-                        backgroundColorOff="#767577"
-                        containerStyle={{
-                            width: 45,
-                            height: 20,
-                            borderRadius: 25,
-                            padding: 5,
-                        }}
-                        circleStyle={{
-                            width: 15,
-                            height: 15,
-                            borderRadius: 15,
-                        }}
+                    <ConfigElement icon={icons.moon} title="Dark mode" color="#D9D9D9" textColor={theme.text} />
+                    <Switch
+                        value={theme === darkTheme}
+                        onValueChange={toggleTheme}
+                        trackColor={{false: '#767577', true: '#D6FC51'}}
+                        thumbColor={'#D6FC51'}
+                        style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }] }}
                     />
                 </View>
             </View>
 
-            <View className="mx-5 mb-9">
-                <Text className="text-white font-mbold text-xl">Others</Text>
+            <View className="mb-9">
+                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Others</Text>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.language} title="Change language" />
+                    <ConfigElement icon={icons.language} title="Change language" textColor={theme.text} />
                     {/* HERE GOES SELECT LANGUAGE LIST */}
                 </View>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.terms} title="Terms of use" />
+                    <ConfigElement icon={icons.terms} title="Terms of use" textColor={theme.text} />
                     {/* HERE GOES TERMS SECTION */}
                 </View>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.key} title="Update password" />
+                    <ConfigElement icon={icons.key} title="Update password" textColor={theme.text} />
                     {/* HERE GOES TERMS SECTION */}
                 </View>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
