@@ -19,6 +19,7 @@ import language from '../assets/icons/language.png';
 import terms from '../assets/icons/receipt.png';
 import key from '../assets/icons/key.png';
 import userDelete from '../assets/icons/user-off.png';
+import desert from '../assets/icons/desert.png';
 
 export const icons = {
     home,
@@ -41,5 +42,6 @@ export const icons = {
     language,
     terms,
     key,
-    userDelete
+    userDelete,
+    desert
 };

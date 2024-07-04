@@ -12,7 +12,8 @@ export const lightTheme = {
     bottomSheet: "#ededed",
     handler: 'black',
     steps: '#262729',
-    recipeInfoText: "#9c8954"
+    recipeInfoText: "#9c8954",
+    noSavedColor: "gray"
 };
 
 export const darkTheme = {
@@ -29,5 +30,6 @@ export const darkTheme = {
     bottomSheet: "#181E2D",
     handler: 'gray',
     steps: '#B9B9B9',
-    recipeInfoText: "#ffe598"
+    recipeInfoText: "#ffe598",
+    noSavedColor: "white"
 };
