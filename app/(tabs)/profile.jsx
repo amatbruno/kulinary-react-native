@@ -1,6 +1,6 @@
 import { Image, SafeAreaView, Alert, TouchableOpacity, View, Text } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
-import { route, router } from 'expo-router';
+import { router } from 'expo-router';
 
 import { useGlobalContext } from '../../context/GlobalProvider';
 import ThemeContext from '../../context/ThemeContext';
