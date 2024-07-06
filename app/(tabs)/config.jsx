@@ -2,7 +2,6 @@ import { View, Text, SafeAreaView, Switch, Modal, TouchableOpacity, TextInput, A
 import React, { useContext, useState } from 'react';
 import ConfigElement from '../../components/ConfigElement';
 
-import { useRouter } from 'expo-router';
 import * as Updates from 'expo-updates';
 
 import { icons } from '../../constants/icons';
@@ -14,13 +13,11 @@ import { updateUserPsswd } from '../../lib/appwrite';
 
 const Config = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const { user, fetchUser, handleLogout } = useGlobalContext();
+    const { fetchUser, handleLogout } = useGlobalContext();
 
     const [isVisible, setIsVisible] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
-
-    const router = useRouter();
 
     const handleUpdatePassword = async () => {
         try {
@@ -41,13 +38,23 @@ const Config = () => {
     };
 
     return (
-        <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }} className="h-full px-5">
-            <Text style={{ color: theme.text }} className="mt-24 text-white font-mbold text-2xl text-center mb-6">Configuration</Text>
-
+        <SafeAreaView
+            style={{ backgroundColor: theme.background, flex: 1 }}
+            className="h-full px-5"
+        >
+            <Text
+                style={{ color: theme.text }}
+                className="mt-24 text-white font-mbold text-2xl text-center mb-6">Configuration
+            </Text>
             <View className="mb-9 mt-5">
                 <Text style={{ color: theme.text }} className="font-mbold text-xl">Theme</Text>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.moon} title="Dark mode" color="#D9D9D9" textColor={theme.text} />
+                    <ConfigElement
+                        icon={icons.moon}
+                        title="Dark mode"
+                        color="#D9D9D9"
+                        textColor={theme.text}
+                    />
                     <Switch
                         value={theme === darkTheme}
                         onValueChange={toggleTheme}
@@ -79,7 +86,11 @@ const Config = () => {
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                        <ConfigElement icon={icons.terms} title="Terms of use" textColor={theme.text} />
+                        <ConfigElement
+                            icon={icons.terms}
+                            title="Terms of use"
+                            textColor={theme.text}
+                        />
                         <Image
                             source={icons.arrowLeft}
                             tintColor={theme.tintColor}
@@ -87,14 +98,6 @@ const Config = () => {
                         />
                     </View>
                 </TouchableOpacity>
-            </View>
-
-            <View className="mb-9">
-                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Danger zone</Text>
-                <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.userDelete} title="Delete account" textColor="#FF4141" color='#FF4141' />
-                    {/* HERE GOES TERMS SECTION */}
-                </View>
             </View>
 
             <Modal

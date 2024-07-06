@@ -1,14 +1,12 @@
 import { View, Text, Image } from 'react-native';
 import React, { useContext } from 'react';
-import { Tabs, Redirect } from 'expo-router';
+import { Tabs } from 'expo-router';
 
 import { icons } from '../../constants/icons';
 
 import ThemeContext from '../../context/ThemeContext';
 
 const TabIcon = ({ icon, color, name, focused }) => {
-    const { theme } = useContext(ThemeContext);
-
     return (
         <View className='items-center justify-center gap-1'>
             <Image
@@ -17,7 +15,9 @@ const TabIcon = ({ icon, color, name, focused }) => {
                 tintColor={color}
                 className='w-6 h-6'
             />
-            <Text className={`${focused ? 'font-msemi text-secondary_green' : 'font-mregular text-[#CDCDE0]'} text-xs`} style={{ color: color }}>
+            <Text
+                className={`${focused ? 'font-msemi text-secondary_green' : 'font-mregular text-[#CDCDE0]'} text-xs`}
+                style={{ color: color }}>
                 {name}
             </Text>
         </View>

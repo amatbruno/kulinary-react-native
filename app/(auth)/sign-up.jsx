@@ -26,13 +26,13 @@ const SignUp = () => {
         setIsSubmitting(true)
 
         try {
-            const result = await createUser(
+            await createUser(
                 form.email,
                 form.password,
-                form.username,);
+                form.username
+            );
 
             router.replace('/home');
-
         } catch (error) {
             Alert.alert('Error', error.message);
         } finally {
@@ -83,14 +83,12 @@ const SignUp = () => {
                         otherStyles='mt-5'
                         placeholder="Enter your password"
                     />
-
                     <CustomButton
                         title='Sign Up'
                         handlePress={submit}
                         containerStyles='mt-12'
                         isLoading={isSubmitting}
                     />
-
                     <View className="justify-center items-center pt-7 flex-row gap-1.5">
                         <Text className="text-gray-200 text-[16px] font-mmedium">Already have an account?</Text>
                         <Link className="text-secondary_green text-[16px] font-mbold" href="/sign-in">Sign In</Link>

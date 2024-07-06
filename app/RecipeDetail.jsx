@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native'
 import React, { useRef, useMemo, useState, useEffect, useContext } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
@@ -19,11 +19,11 @@ export default function RecipeDetail() {
     const route = useRoute();
     const { recipe } = route.params;
     const navigation = useNavigation();
-    const [liked, setLiked] = useState(false);
-    const { user, setUser } = useGlobalContext();
-    const [loading, setLoading] = useState(true);
-
+    const { user } = useGlobalContext();
     const { theme } = useContext(ThemeContext);
+
+    const [loading, setLoading] = useState(true);
+    const [liked, setLiked] = useState(false);
 
     //Steps arr slicing
     const steps = [];
@@ -113,8 +113,8 @@ export default function RecipeDetail() {
                         ref={bottomSheetRef}
                         index={1}
                         snapPoints={snapPoints}
-                        backgroundStyle={{backgroundColor: theme.bottomSheet}}
-                        handleIndicatorStyle={{backgroundColor: theme.handler}}
+                        backgroundStyle={{ backgroundColor: theme.bottomSheet }}
+                        handleIndicatorStyle={{ backgroundColor: theme.handler }}
                     >
                         <Text
                             style={{ color: theme.text }}
@@ -144,12 +144,3 @@ export default function RecipeDetail() {
         </GestureHandlerRootView>
     )
 }
-
-// const styles = StyleSheet.create({
-//     bottomSheetBackground: {
-//         backgroundColor: theme.bottomSheet
-//     },
-//     handlerColor: {
-//         backgroundColor: 'gray',
-//     }
-// });

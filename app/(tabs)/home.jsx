@@ -19,7 +19,7 @@ const Home = () => {
 
     const { theme } = useContext(ThemeContext);
 
-    const onRefresh = async () => { //Refreshing action for new recipes
+    const onRefresh = async () => { //Refreshing method for new recipes
         setRefreshing(true);
         await reFetch();
         setRefreshing(false);

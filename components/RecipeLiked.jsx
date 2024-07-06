@@ -6,7 +6,7 @@ import { icons } from '../constants/icons'
 import ThemeContext from '../context/ThemeContext';
 
 export default function RecipeLiked({ recipeInfo: { title, thumbnail, calories, grams } }) {
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
 
     return (
         <TouchableOpacity

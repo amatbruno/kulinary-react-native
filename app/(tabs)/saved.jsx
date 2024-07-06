@@ -1,12 +1,13 @@
-import { View, Text, SafeAreaView, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native'
+import { View, Text, SafeAreaView, FlatList, RefreshControl, Image } from 'react-native'
 import React, { useState, useContext } from 'react'
+
 import { getLikedRecipes } from '../../lib/appwrite';
+import useAppwrite from '../../lib/useAppwrite';
+
 import { useGlobalContext } from '../../context/GlobalProvider';
 import ThemeContext from '../../context/ThemeContext';
-import useAppwrite from '../../lib/useAppwrite';
-import RecipeLiked from '../../components/RecipeLiked';
 
-import { useNavigation } from '@react-navigation/native';
+import RecipeLiked from '../../components/RecipeLiked';
 
 import { icons } from '../../constants/icons';
 
@@ -20,8 +21,6 @@ const Saved = () => {
         await reFetch();
         setRefreshing(false);
     };
-
-    const navigation = useNavigation();
 
     const { theme } = useContext(ThemeContext);
 

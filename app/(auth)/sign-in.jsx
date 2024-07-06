@@ -25,12 +25,9 @@ const SignIn = () => {
         setIsSubmitting(true)
 
         try {
-            await signIn(
-                form.email,
-                form.password);
+            await signIn(form.email, form.password);
 
             router.replace('/home');
-
         } catch (error) {
             Alert.alert('Error', error.message);
         } finally {
@@ -61,7 +58,6 @@ const SignIn = () => {
                         keyboardType="email-address"
                         placeholder="Enter your email"
                     />
-
                     <FormField
                         title="Password"
                         value={form.password}
@@ -72,14 +68,12 @@ const SignIn = () => {
                         otherStyles='mt-7'
                         placeholder="Enter your password"
                     />
-
                     <CustomButton
                         title='Sign In'
                         handlePress={submit}
                         containerStyles='mt-14'
                         isLoading={isSubmitting}
                     />
-
                     <View className="justify-center items-center pt-7 flex-row gap-1.5">
                         <Text className="text-gray-200 text-[16px] font-mmedium">Don't have an account?</Text>
                         <Link className="text-secondary_green text-[16px] font-mbold" href="/sign-up">Sign Up</Link>

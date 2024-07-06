@@ -3,7 +3,7 @@ import { Modal, View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import ThemeContext from '../context/ThemeContext';
 
-const EditModal = ({ visible, onClose, onSave, field, value, lines }) => {
+const EditModal = ({ visible, onClose, onSave, field, value }) => {
     const [inputValue, setInputValue] = useState(value);
 
     const { theme } = useContext(ThemeContext);
