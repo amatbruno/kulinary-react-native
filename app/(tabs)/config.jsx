@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Switch, Modal, TouchableOpacity, TextInput, Alert } from 'react-native'
+import { View, Text, SafeAreaView, Switch, Modal, TouchableOpacity, TextInput, Alert, Image } from 'react-native'
 import React, { useContext, useState } from 'react';
 import ConfigElement from '../../components/ConfigElement';
 
@@ -10,11 +10,11 @@ import ThemeContext from '../../context/ThemeContext';
 import { useGlobalContext } from '../../context/GlobalProvider';
 
 import { darkTheme } from '../../themes/themes';
-import { updateUserPsswd, userLogout, getAccount } from '../../lib/appwrite';
+import { updateUserPsswd } from '../../lib/appwrite';
 
 const Config = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const { user, setUser, setIsLoggedIn } = useGlobalContext();
+    const { user, fetchUser, handleLogout } = useGlobalContext();
 
     const [isVisible, setIsVisible] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
@@ -25,10 +25,13 @@ const Config = () => {
     const handleUpdatePassword = async () => {
         try {
             await updateUserPsswd(currentPassword, newPassword);
-            await refreshUserData();
+            await fetchUser();
             Alert.alert('Warning!', 'Your session will be restarted after password changes', [
                 {
-                    text: 'Accept', onPress: () => handleLogout()
+                    text: 'Accept', onPress: () => {
+                        handleLogout();
+                        Updates.reloadAsync();
+                    }
                 }
             ]);
         } catch (error) {
@@ -37,37 +40,11 @@ const Config = () => {
         }
     };
 
-    const refreshUserData = async () => {
-        try {
-            setUser(getAccount());
-        } catch (error) {
-            console.error('Error refreshing user data:', error.message);
-        }
-    };
-
-    const handleLogout = async () => {
-        await userLogout();
-        setUser(null);
-        setIsLoggedIn(false);
-
-        router.replace('/sign-in');
-
-        Updates.reloadAsync(); //Reload app
-    };
-
     return (
         <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }} className="h-full px-5">
             <Text style={{ color: theme.text }} className="mt-24 text-white font-mbold text-2xl text-center mb-6">Configuration</Text>
 
-            <View className="mb-9">
-                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Notifications</Text>
-                <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement textColor={theme.text} icon={icons.bell} title="Enable notifications" color="#D9D9D9" />
-                    <Switch />
-                </View>
-            </View>
-
-            <View className="mb-9">
+            <View className="mb-9 mt-5">
                 <Text style={{ color: theme.text }} className="font-mbold text-xl">Theme</Text>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
                     <ConfigElement icon={icons.moon} title="Dark mode" color="#D9D9D9" textColor={theme.text} />
@@ -82,23 +59,38 @@ const Config = () => {
             </View>
 
             <View className="mb-9">
-                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Others</Text>
-                <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.language} title="Change language" textColor={theme.text} />
-                    {/* HERE GOES SELECT LANGUAGE LIST */}
-                </View>
-                <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
-                    <ConfigElement icon={icons.terms} title="Terms of use" textColor={theme.text} />
-                    {/* HERE GOES TERMS SECTION */}
-                </View>
+                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Account</Text>
+
+                {/* UPDATE PASSWORD SECTION */}
                 <TouchableOpacity
                     className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2"
                     onPress={() => setIsVisible(true)}
                 >
-                    <ConfigElement icon={icons.key} title="Update password"
-                        textColor={theme.text} />
-                    {/* HERE GOES TERMS SECTION */}
+                    <ConfigElement
+                        icon={icons.key}
+                        title="Update password"
+                        textColor={theme.text}
+                    />
+                    <Image
+                        source={icons.arrowLeft}
+                        tintColor={theme.tintColor}
+                        className="w-5 h-5 rotate-180"
+                    />
                 </TouchableOpacity>
+                <TouchableOpacity>
+                    <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
+                        <ConfigElement icon={icons.terms} title="Terms of use" textColor={theme.text} />
+                        <Image
+                            source={icons.arrowLeft}
+                            tintColor={theme.tintColor}
+                            className="w-5 h-5 rotate-180"
+                        />
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            <View className="mb-9">
+                <Text style={{ color: theme.text }} className="text-white font-mbold text-xl">Danger zone</Text>
                 <View className="flex-row justify-between items-center mt-2 rounded-lg py-3 px-2">
                     <ConfigElement icon={icons.userDelete} title="Delete account" textColor="#FF4141" color='#FF4141' />
                     {/* HERE GOES TERMS SECTION */}

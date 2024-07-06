@@ -1,12 +1,11 @@
 import { Image, SafeAreaView, Alert, TouchableOpacity, View, Text } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 import { useGlobalContext } from '../../context/GlobalProvider';
 import ThemeContext from '../../context/ThemeContext';
 
-import { userLogout } from '../../lib/appwrite';
-import { updateUserBio } from '../../lib/appwrite';
+import { userLogout, updateUserBio, getAccount } from '../../lib/appwrite';
 
 import { icons } from '../../constants/icons';
 
@@ -26,14 +25,17 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
 
     const { theme } = useContext(ThemeContext);
+    const router = useRouter();
 
     useEffect(() => {
         if (user) {
             setNewUsername(user.username || '');
             setNewEmail(user.email || '');
             setNewBiography(user.biography || '');
+        } else {
+            getAccount().then(setUser).catch(console.error);
         }
-    }, [user]);
+    }, [user, setUser]);
 
     const handleUpdateField = async (field, value) => {
         setLoading(true);

@@ -32,19 +32,7 @@ const Saved = () => {
                 keyExtractor={item => `${item.$id}`}
                 renderItem={({ item }) => <View className="mx-2 mt-4"><RecipeLiked recipeInfo={item} /></View>}
                 ListHeaderComponent={() => (
-                    <View>
-                        <View className="mt-16 flex-row justify-between mx-8">
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('home')}
-                            >
-                                <Image
-                                    source={icons.arrowLeft}
-                                    className="w-[25px] h-[25px]"
-                                    tintColor={theme.tintColor}
-                                    resizeMode="cover"
-                                />
-                            </TouchableOpacity>
-                        </View>
+                    <View className="mt-24">
                         <Text
                             style={{ color: theme.text }}
                             className="text-2xl font-mbold text-center mt-2 mb-2">My saved recipes

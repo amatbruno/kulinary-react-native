@@ -10,21 +10,33 @@ const GlobalProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const fetchUser = async () => {
+        try {
+            const res = await getCurrentUser();
+            if (res) {
+                setIsLoggedIn(true);
+                setUser(res);
+            } else {
+                setIsLoggedIn(false);
+                setUser(null);
+            }
+        } catch (err) {
+            console.log(err);
+            setIsLoggedIn(false);
+            setUser(null);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        await userLogout();
+        setUser(null);
+        setIsLoggedIn(false);
+    };
+
     useEffect(() => {
-        getCurrentUser()
-            .then((res) => {
-                if (res) {
-                    setIsLoggedIn(true);
-                    setUser(res);
-                } else {
-                    setIsLoggedIn(false);
-                    setUser(null);
-                }
-            }).catch((err) => {
-                console.log(err)
-            }).finally(() => {
-                setIsLoading(false);
-            });
+        fetchUser();
     }, []);
 
     return (
@@ -34,8 +46,11 @@ const GlobalProvider = ({ children }) => {
                 setIsLoggedIn,
                 user,
                 setUser,
-                isLoading
-            }}>
+                isLoading,
+                fetchUser,
+                handleLogout,
+            }}
+        >
             {children}
         </GlobalContext.Provider>
     )
