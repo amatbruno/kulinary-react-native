@@ -2,18 +2,20 @@ import { View, Text, SafeAreaView, Switch, Modal, TouchableOpacity, TextInput, A
 import React, { useContext, useState } from 'react';
 import ConfigElement from '../../components/ConfigElement';
 
-import * as Updates from 'expo-updates';
-
 import { icons } from '../../constants/icons';
 import ThemeContext from '../../context/ThemeContext';
 import { useGlobalContext } from '../../context/GlobalProvider';
+import { useNavigation } from '@react-navigation/native';
 
 import { darkTheme } from '../../themes/themes';
 import { updateUserPsswd } from '../../lib/appwrite';
+import { useRouter } from 'expo-router';
 
 const Config = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const { fetchUser, handleLogout } = useGlobalContext();
+    const { fetchUser } = useGlobalContext();
+
+    const navigation = useNavigation();
 
     const [isVisible, setIsVisible] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
@@ -23,17 +25,14 @@ const Config = () => {
         try {
             await updateUserPsswd(currentPassword, newPassword);
             await fetchUser();
-            Alert.alert('Warning!', 'Your session will be restarted after password changes', [
+            Alert.alert('Success!', 'Your password has been changed succesfully', [
                 {
-                    text: 'Accept', onPress: () => {
-                        handleLogout();
-                        Updates.reloadAsync();
-                    }
+                    text: 'Accept',
+                    onPress: () => setIsVisible(false)
                 }
             ]);
         } catch (error) {
             Alert.alert('Warning!', error.message);
-            console.error('Error in handleUpdatePassword:', error.message);
         }
     };
 

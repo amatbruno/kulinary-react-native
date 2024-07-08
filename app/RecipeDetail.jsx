@@ -18,6 +18,7 @@ import ThemeContext from '../context/ThemeContext';
 export default function RecipeDetail() {
     const route = useRoute();
     const { recipe } = route.params;
+    
     const navigation = useNavigation();
     const { user } = useGlobalContext();
     const { theme } = useContext(ThemeContext);

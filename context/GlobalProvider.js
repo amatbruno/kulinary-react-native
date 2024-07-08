@@ -29,12 +29,6 @@ const GlobalProvider = ({ children }) => {
         }
     };
 
-    const handleLogout = async () => {
-        await userLogout();
-        setUser(null);
-        setIsLoggedIn(false);
-    };
-
     useEffect(() => {
         fetchUser();
     }, []);
@@ -47,8 +41,7 @@ const GlobalProvider = ({ children }) => {
                 user,
                 setUser,
                 isLoading,
-                fetchUser,
-                handleLogout,
+                fetchUser
             }}
         >
             {children}
