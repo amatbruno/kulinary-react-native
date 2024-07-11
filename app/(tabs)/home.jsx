@@ -1,23 +1,27 @@
 import { View, Text, FlatList, Image, TouchableOpacity, RefreshControl } from 'react-native';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import RecipeCard from '../../components/RecipeCard';
 
 import ThemeContext from '../../context/ThemeContext';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 import { images } from '../../constants/images';
 import { categories } from '../../data/categories';
 import { getAllRecipes } from '../../lib/appwrite';
 import useAppwrite from '../../lib/useAppwrite';
 import { useNavigation } from '@react-navigation/native';
+import WelcomeModal from '../../components/WelcomeModal';
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
+    const [showModal, setShowModal] = useState(true);
+
     const { data: recipes, reFetch } = useAppwrite(getAllRecipes);
     const navigation = useNavigation();
-
     const { theme } = useContext(ThemeContext);
+    const { user, isLoading } = useGlobalContext();
 
     const onRefresh = async () => { //Refreshing method for new recipes
         setRefreshing(true);
@@ -25,9 +29,15 @@ const Home = () => {
         setRefreshing(false);
     }
 
+    // useEffect(() => {
+    //     if (!isLoading) {
+    //         setShowModal(true);
+    //     }
+    // }, [isLoading]);
+
     return (
         <SafeAreaView
-            style={{ backgroundColor: theme.background, flex: 1 }}
+            style={{ backgroundColor: theme.background }}
             className='h-full'>
             <FlatList
                 data={recipes}
@@ -42,7 +52,13 @@ const Home = () => {
                         <View className='justify-between items-center flex-row mb-6'>
                             <View>
                                 <Text style={{ color: theme.text }} className='text-[15px] font-msemi'>Welcome back,</Text>
-                                <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>Bruno! 👋</Text>
+                                {isLoading ? (
+                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>Loading...</Text>
+                                ) : user ? (
+                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>{user.username}! 👋</Text>
+                                ) : (
+                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>User not found</Text>
+                                )}
                             </View>
                             <View>
                                 <Image
@@ -63,13 +79,14 @@ const Home = () => {
                                         className="border-gray-300 border-2 py-1.5 px-3.5 text-[20px] font-mmedium rounded-full">{item}</Text>
                                 </TouchableOpacity>
                             )} />
-                        <Text style={{ color: theme.text}} className='text-[23px] font-msemi mb-5'>Discover recipes</Text>
+                        <Text style={{ color: theme.text }} className='text-[23px] font-msemi mb-5'>Discover recipes</Text>
                     </View>
                 )}
                 refreshControl={<RefreshControl
                     refreshing={refreshing}
                     onRefresh={onRefresh} />}
             />
+            <WelcomeModal pressStart={() => setShowModal(false)} username={user?.username} visible={showModal} />
         </SafeAreaView>
     )
 }

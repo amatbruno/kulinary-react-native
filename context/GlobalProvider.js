@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { getCurrentUser } from '../lib/appwrite';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getCurrentUser, getAccount } from '../lib/appwrite';
 
 const GlobalContext = createContext();
+
 export const useGlobalContext = () => useContext(GlobalContext);
 
-//Provider
 const GlobalProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
@@ -12,16 +12,17 @@ const GlobalProvider = ({ children }) => {
 
     const fetchUser = async () => {
         try {
-            const res = await getCurrentUser();
-            if (res) {
+            const currentAccount = await getAccount();
+            if (currentAccount) {
+                const currentUser = await getCurrentUser();
                 setIsLoggedIn(true);
-                setUser(res);
+                setUser(currentUser);
             } else {
                 setIsLoggedIn(false);
                 setUser(null);
             }
         } catch (err) {
-            console.log(err);
+            console.log('Error fetching user:', err);
             setIsLoggedIn(false);
             setUser(null);
         } finally {
@@ -46,7 +47,7 @@ const GlobalProvider = ({ children }) => {
         >
             {children}
         </GlobalContext.Provider>
-    )
-}
+    );
+};
 
 export default GlobalProvider;

@@ -119,8 +119,11 @@ export default function RecipeDetail() {
                     >
                         <Text
                             style={{ color: theme.text }}
-                            className="text-center font-msemi text-[24px] pt-2 pb-5">Steps & Ingredients</Text>
+                            className="text-center font-msemi text-[24px] pt-2 pb-5">How to make it?</Text>
                         <BottomSheetScrollView>
+                        <View className="items-start mb-5 mx-8">
+                            <Text style={{ color: theme.steps }} className="text-[16px] font-mmedium">{recipe.ingredients}</Text>
+                        </View>
                             {steps.length > 0 ? (
                                 steps.map((step, index) => (
                                     <View key={index} className="flex-row items-start justify-start mt-4 ml-7 mr-14">
