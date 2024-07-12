@@ -7,6 +7,10 @@ import { ThemeProvider } from '../context/ThemeContext';
 
 SplashScreen.preventAutoHideAsync();
 
+console.log = () => { };
+console.warn = () => { };
+console.error = () => { };
+
 const RootLayout = () => {
     const [fontsLoaded, error] = useFonts({
         "MavenPro-Regular": require("../assets/fonts/MavenPro-Regular.ttf"),

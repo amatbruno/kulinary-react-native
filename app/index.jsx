@@ -21,6 +21,7 @@ export default function App() {
                         <Image
                             source={images.logo}
                             resizeMode="contain"
+                            className="w-12 h-12"
                         />
                         <Text className="font-mbextraold text-[52px] text-white">Kulinary</Text>
                     </View>
@@ -30,7 +31,7 @@ export default function App() {
                         className="w-[375px]"
                     />
                     <Text className="font-mbextraold w-[300px] text-center text-[38px] text-white mb-4">Perfect recipes for a
-                        <Text className="text-secondary_green">perfect day</Text>
+                        <Text className="text-secondary_green"> perfect day</Text>
                     </Text>
                     <Text className="font-mregular w-[290px] text-center text-[17px] text-white">Discover over a thousand healthy and easy recipes</Text>
                     <CustomButton

@@ -43,6 +43,7 @@ const SignIn = () => {
                         <Image
                             source={images.logo}
                             resizeMode="contain"
+                            className="w-12 h-12"
                         />
                         <Text className="font-mbextraold text-[52px] text-white">Kulinary</Text>
                     </View>

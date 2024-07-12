@@ -47,7 +47,6 @@ const Profile = () => {
             }
             Alert.alert('Success', `${field.charAt(0).toUpperCase() + field.slice(1)} updated successfully`);
         } catch (error) {
-            console.error(`Error updating ${field}:`, error.message);
             Alert.alert('Error', `Failed to update ${field}. Please try again.`);
         } finally {
             setLoading(false);

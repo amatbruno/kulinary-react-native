@@ -16,12 +16,12 @@ import WelcomeModal from '../../components/WelcomeModal';
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     const { data: recipes, reFetch } = useAppwrite(getAllRecipes);
     const navigation = useNavigation();
     const { theme } = useContext(ThemeContext);
-    const { user, isLoading } = useGlobalContext();
+    const { user, isLoggedIn, isLoading } = useGlobalContext();
 
     const onRefresh = async () => { //Refreshing method for new recipes
         setRefreshing(true);
@@ -29,11 +29,11 @@ const Home = () => {
         setRefreshing(false);
     }
 
-    // useEffect(() => {
-    //     if (!isLoading) {
-    //         setShowModal(true);
-    //     }
-    // }, [isLoading]);
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setShowModal(true);
+        }
+    }, [isLoggedIn]);
 
     return (
         <SafeAreaView
@@ -55,15 +55,15 @@ const Home = () => {
                                 {isLoading ? (
                                     <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>Loading...</Text>
                                 ) : user ? (
-                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>{user.username}! 👋</Text>
+                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>{user?.username}! 👋</Text>
                                 ) : (
-                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>User not found</Text>
+                                    <Text style={{ color: theme.text }} className='text-[26px] font-mbold'>Loading...</Text>
                                 )}
                             </View>
                             <View>
                                 <Image
                                     source={images.logo}
-                                    className='w-10 h-10'
+                                    className='w-16 h-16'
                                     resizeMode='contain' />
                             </View>
                         </View>

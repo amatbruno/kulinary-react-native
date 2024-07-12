@@ -20,7 +20,7 @@ const SignUp = () => {
 
     const submit = async () => {
         if (!form.username || !form.email || !form.password) {
-            Alert.alert('Error', 'You need to fill all the fields');
+            Alert.alert('Error', 'You need to fill all the fiels');
         }
 
         setIsSubmitting(true)
@@ -48,6 +48,7 @@ const SignUp = () => {
                         <Image
                             source={images.logo}
                             resizeMode="contain"
+                            className="w-12 h-12"
                         />
                         <Text className="font-mbextraold text-[52px] text-white">Kulinary</Text>
                     </View>
